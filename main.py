@@ -2,7 +2,10 @@ from flask import Flask, request, jsonify
 import psycopg2
 
 
-#host="dpg-ckefq85tj22c73e17aag-a.singapore-postgres.render.com",
+#host="dpg-ckefq85tj22c73e17aag-a.singapore-postgres.render.com" --> for local machine
+
+#host="dpg-ckefq85tj22c73e17aag-a" -- for online
+
 
 connection = psycopg2.connect(
         host="dpg-ckefq85tj22c73e17aag-a",
@@ -37,9 +40,12 @@ def sql_get(table, qualifyer, request):
     results = cursor.fetchall()
 
     if len(results) > 1:
-        print("results larger then 1  ignoring values")
+        print("results larger then 1 ignoring values")
 
-    res = results[0][0] #assumes only one value is returned will ignore anymore then the first
+    if results != None:
+        res = results[0][0] #assumes only one value is returned will ignore anymore then the first
+    else:
+        return "No Data Found"
 
     cursor.close()
     
@@ -56,9 +62,11 @@ def check_pswrd(email, hash):
 def create_new_user(email, pswrd):
     cursor = connection.cursor()
 
-    str_code = 'INSERT INTO user("email", "password") VALUE (' + email + ' ' + pswrd +   ')'
+    str_code = 'INSERT INTO public."user" (email, "password")' + " VALUES('" + email +"', '" + pswrd + "')"
     print(str_code)
     cursor.execute(str_code)
+
+    connection.commit()
 
     cursor.close()
 
