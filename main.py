@@ -2,10 +2,10 @@ from flask import Flask, request, jsonify
 import psycopg2
 
 
-
+#host="dpg-ckefq85tj22c73e17aag-a.singapore-postgres.render.com",
 
 connection = psycopg2.connect(
-        host="dpg-ckefq85tj22c73e17aag-a.singapore-postgres.render.com",
+        host="dpg-ckefq85tj22c73e17aag-a",
         database="fimpdatabase",
         user="base",
         password="QCGu3Zeq9F2tJb1lqjhETHH4qbjf66sY"
