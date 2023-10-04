@@ -23,7 +23,7 @@ def login(email, hash):
     return check_pswrd(email, hash)
 
 @app.route("/nuser/<email>/<hash>")
-def login(email, hash):
+def nsuer(email, hash):
     return create_new_user(email, hash)
 
 
