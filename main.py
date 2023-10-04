@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "API CONNECTED"
+    return "API CONNECTED - HI LEIA/LUKE/ROB"
 
 @app.route("/login/<email>/<hash>")
 def login(email, hash):
