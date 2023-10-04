@@ -22,6 +22,9 @@ def home():
 def login(email, hash):
     return check_pswrd(email, hash)
 
+@app.route("/nuser/<email>/<hash>")
+def login(email, hash):
+    return create_new_user(email, hash)
 
 
 def sql_get(table, qualifyer, request):
@@ -50,7 +53,16 @@ def check_pswrd(email, hash):
         return "True"
     return "False"
 
+def create_new_user(email, pswrd):
+    cursor = connection.cursor()
 
+    str_code = 'INSERT INTO user("email", "password") VALUE (' + email + ' ' + pswrd +   ')'
+    print(str_code)
+    cursor.execute(str_code)
+
+    cursor.close()
+
+    return "ran the following command: " + str_code
 
 
 
