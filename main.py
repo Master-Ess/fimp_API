@@ -15,6 +15,9 @@ connection = psycopg2.connect(
 
 app = Flask(__name__)
 
+
+########## routes
+
 @app.route("/")
 def home():
     return "API CONNECTED - FIMP DATABASE CONNECTED"
@@ -27,6 +30,9 @@ def login(email, hash):
 def nsuer(email, hash):
     return create_new_user(email, hash)
 
+@app.route("/nuser/<email>/<hash>/<gender>/<school>/<DOB>/<suburb>/<fname>")
+
+
 @app.route("/count") #testing call remove before prod
 def count():
     return str(get_max_entries('affirmations'))
@@ -34,6 +40,9 @@ def count():
 @app.route("/randaff")
 def randaff():
     return str(random_affirmation())
+
+
+###################
 
 
 def sql_get(table, qualifyer, request):
@@ -77,6 +86,21 @@ def create_new_user(email, pswrd):
     cursor.close()
 
     return "ran the following command: " + str_code
+
+def create_new_user_max(email, pswrd, gender, school, DOB, suburb, Fname):
+    cursor = connection.cursor()
+
+    #requires clensing espc DOB --> format is YYYY/MM/DD
+
+    str_code = 'INSERT INTO public."user" (email,"password",gender,school,dob,suburb,fname)' + " VALUES('" + email +"', '" + pswrd + "', '"+ gender +"', '"+ school +"', '"+ DOB +"', '"+"', '"+ suburb + "', '" + Fname +  "')"
+    print(str_code)
+    cursor.execute(str_code)
+
+    connection.commit()
+
+    cursor.close()
+
+    return "User created with name: " + Fname
 
 def get_max_entries(table):
     cursor = connection.cursor()
