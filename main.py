@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import psycopg2
-
+import random
 
 #host="dpg-ckefq85tj22c73e17aag-a.singapore-postgres.render.com" --> for local machine
 
@@ -26,6 +26,14 @@ def login(email, hash):
 @app.route("/nuser/<email>/<hash>")
 def nsuer(email, hash):
     return create_new_user(email, hash)
+
+@app.route("/count") #testing call remove before prod
+def count():
+    return str(get_max_entries('affirmations'))
+
+@app.route("/randaff")
+def randaff():
+    return str(random_affirmation())
 
 
 def sql_get(table, qualifyer, request):
@@ -70,7 +78,35 @@ def create_new_user(email, pswrd):
 
     return "ran the following command: " + str_code
 
+def get_max_entries(table):
+    cursor = connection.cursor()
 
+    str_code = 'SELECT COUNT(*) AS row_count FROM public.' + table
+    print(str_code)
+    cursor.execute(str_code)
+
+    results = cursor.fetchall()
+
+    cursor.close()
+
+    return results[0][0]
+
+def random_affirmation():
+    maxaf =  get_max_entries('affirmations')
+    rand_aff = random.randint(1,maxaf)
+
+    cursor = connection.cursor()
+
+    str_code = 'SELECT contents FROM public.affirmations WHERE id = ' + str(rand_aff)
+    print(str_code)
+    cursor.execute(str_code)
+
+    results = cursor.fetchall()[0][0]
+
+    cursor.close()
+    return results
+
+    
 
 if (__name__) == "__main__":
     app.run(debug=True)
