@@ -4,8 +4,7 @@ import psycopg2
 
 #host="dpg-ckefq85tj22c73e17aag-a.singapore-postgres.render.com" --> for local machine
 
-#host="dpg-ckefq85tj22c73e17aag-a" -- for online
-
+#host="dpg-ckefq85tj22c73e17aag-a" -- for q online
 
 connection = psycopg2.connect(
         host="dpg-ckefq85tj22c73e17aag-a",
@@ -13,7 +12,6 @@ connection = psycopg2.connect(
         user="base",
         password="QCGu3Zeq9F2tJb1lqjhETHH4qbjf66sY"
     )
-
 
 app = Flask(__name__)
 
