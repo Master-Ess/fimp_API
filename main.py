@@ -31,7 +31,8 @@ def nsuer(email, hash):
     return create_new_user(email, hash)
 
 @app.route("/nuser/<email>/<hash>/<gender>/<school>/<DOB>/<suburb>/<fname>")
-
+def nsuer_max(email, hash, gender, school, DOB, suburb, fname):
+    return create_new_user_max(email, hash, gender, school, DOB, suburb, fname)
 
 @app.route("/count") #testing call remove before prod
 def count():
@@ -92,7 +93,7 @@ def create_new_user_max(email, pswrd, gender, school, DOB, suburb, Fname):
 
     #requires clensing espc DOB --> format is YYYY/MM/DD
 
-    str_code = 'INSERT INTO public."user" (email,"password",gender,school,dob,suburb,fname)' + " VALUES('" + email +"', '" + pswrd + "', '"+ gender +"', '"+ school +"', '"+ DOB +"', '"+"', '"+ suburb + "', '" + Fname +  "')"
+    str_code = 'INSERT INTO public."user" (email,"password",gender,school,dob,suburb,fname)' + " VALUES('" + email +"', '" + pswrd + "', '"+ gender +"', '"+ school +"', '"+ DOB +"', '"+ suburb + "', '" + Fname +  "')"
     print(str_code)
     cursor.execute(str_code)
 
